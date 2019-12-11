@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { addFeature, removeFeature } from "./actions"
 import Header from './components/Header';
 import AddedFeatures from './components/AddedFeatures';
@@ -8,36 +8,41 @@ import Total from './components/Total';
 
 const App = (props) => {
 
+  const state = useSelector( (state) => state);
+  const dispatch = useDispatch();
+
   const removeItem = item => {
     console.log('remove click')
-    props.removeFeature(item)
+    dispatch(removeFeature(item));
   };
 
   const addItem = item => {
     console.log('add click')
-    props.addFeature(item);    
+    dispatch(addFeature(item));    
   };
 
   return (
     <div className="boxes">
       <div className="box">
-        <Header car={props.car} />
-        <AddedFeatures car={props.car} removeItem={removeItem} />
+        <Header car={state.car} />
+        <AddedFeatures car={state.car} removeItem={removeItem} />
       </div>
       <div className="box">
-        <AdditionalFeatures additionalFeatures={props.additionalFeatures} addFeature={addItem} />
-        <Total car={props.car} additionalPrice={props.additionalPrice} />
+        <AdditionalFeatures additionalFeatures={state.additionalFeatures} addFeature={addItem} />
+        <Total car={state.car} additionalPrice={state.additionalPrice} />
       </div>
     </div>
   );
 };
 
-const mapStateToProps = state => {
-  // console.log ('state', state)
-  return {...state};
-};
+export default App;
 
-export default connect(
-  mapStateToProps,
-  {addFeature, removeFeature}
-  )(App);
+// const mapStateToProps = state => {
+//   // console.log ('state', state)
+//   return {...state};
+// };
+
+// export default connect(
+//   mapStateToProps,
+//   {addFeature, removeFeature}
+//   )(App);
