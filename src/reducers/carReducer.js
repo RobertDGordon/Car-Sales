@@ -21,7 +21,7 @@ export const carReducer = ( state = intialState, action) =>{
             console.log ('adding',action.payload)
             return{
                 ...state, car:{ ...state.car,
-                                      features: [...state.car.features, action.payload]
+                                      features: (state.car.features.includes(action.payload) ? [...state.car.features] : [...state.car.features, action.payload])
                 }
             };
         case 'REMOVE_FEATURE':
