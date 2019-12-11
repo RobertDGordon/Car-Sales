@@ -5,7 +5,7 @@ export const intialState = {
       name: '2019 Ford Mustang',
       image:
         'https://cdn.motor1.com/images/mgl/0AN2V/s1/2019-ford-mustang-bullitt.jpg',
-      features: [{ id: 4, name: 'TEST', price: 1000 }]
+      features: []
     },
     additionalFeatures: [
       { id: 1, name: 'V-6 engine', price: 1500 },
@@ -20,8 +20,9 @@ export const carReducer = ( state = intialState, action) =>{
         case 'ADD_FEATURE':
             console.log ('adding',action.payload)
             return{
-                ...state, car:{ ...state.car,
-                                      features: (state.car.features.includes(action.payload) ? [...state.car.features] : [...state.car.features, action.payload])
+                ...state, additionalPrice: state.car.features.includes(action.payload) ? (state.additionalPrice)  : (state.additionalPrice + action.payload.price) ,
+                car:{ ...state.car,
+                    features: (state.car.features.includes(action.payload) ? [...state.car.features] : [...state.car.features, action.payload])
                 }
             };
         case 'REMOVE_FEATURE':
