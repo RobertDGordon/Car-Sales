@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import { addFeature, removeFeature } from "./actions"
 import Header from './components/Header';
 import AddedFeatures from './components/AddedFeatures';
@@ -8,7 +8,12 @@ import Total from './components/Total';
 
 const App = (props) => {
 
-  const state = useSelector( (state) => state);
+  const {car, additionalFeatures, additionalPrice } = useSelector((state) => ({
+    car: state.car,
+    additionalFeatures: state.additionalFeatures,
+    additionalPrice: state.additionalPrice,
+  }), shallowEqual);
+  
   const dispatch = useDispatch();
 
   const removeItem = item => {
@@ -24,12 +29,12 @@ const App = (props) => {
   return (
     <div className="boxes">
       <div className="box">
-        <Header car={state.car} />
-        <AddedFeatures car={state.car} removeItem={removeItem} />
+        <Header car={car} />
+        <AddedFeatures car={car} removeItem={removeItem} />
       </div>
       <div className="box">
-        <AdditionalFeatures additionalFeatures={state.additionalFeatures} addFeature={addItem} />
-        <Total car={state.car} additionalPrice={state.additionalPrice} />
+        <AdditionalFeatures additionalFeatures={additionalFeatures} addFeature={addItem} />
+        <Total car={car} additionalPrice={additionalPrice} />
       </div>
     </div>
   );
